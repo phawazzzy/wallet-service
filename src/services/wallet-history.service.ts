@@ -17,7 +17,14 @@ export class WalletHistoryService {
 
     async create(data: IWalletHistory) {
         try {
-            const response = await this._repo.create({ userId: data.userId, amount: data.amount, caller: data.caller, type: data.type, previousTotal: data.previousTotal });
+            const response = await this._repo.create({
+                userId: data.userId,
+                amount: data.amount,
+                caller: data.caller,
+                type: data.type,
+                previousTotal: data.previousTotal,
+                walletName: data.walletName
+            });
             return response != undefined;
         } catch (error) {
             console.log('History error');

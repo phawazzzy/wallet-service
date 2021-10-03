@@ -22,7 +22,7 @@ container.bind<MongoDBDataSource>(TYPES.MongodbClient).to(MongoDBDataSource);
 container.bind<UserRepository>(TYPES.UserRepositry).to(UserRepository);
 container.bind<OtpRepository>(TYPES.OtpRepository).to(OtpRepository);
 container.bind<WalletRepository>(TYPES.WalletRepository).to(WalletRepository);
-container.bind<WalletHistoryRepository>(TYPES.WalletRepository).to(WalletHistoryRepository);
+container.bind<WalletHistoryRepository>(TYPES.WalletHistoryRepository).to(WalletHistoryRepository);
 
 //SERVICE
 container.bind<UserService>(TYPES.UserService).to(UserService);

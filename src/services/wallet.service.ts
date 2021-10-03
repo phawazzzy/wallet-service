@@ -28,7 +28,7 @@ export class WalletService {
     async credit(data: IWalletData, caller: string) {
         try {
             const { userId, walletName } = data;
-            const currentWallet = await this.get({ userId, walletName });
+            const currentWallet = await this.fetch({ userId, walletName });
             const amount = parseFloat(data.amount.toString());
             const history = await this._walletHistoryService.create({
                 userId: data.userId,
@@ -53,7 +53,7 @@ export class WalletService {
     async debit(data: IWalletData, caller: string) {
         try {
             const { userId, walletName } = data;
-            const currentWallet = await this.get({ userId, walletName });
+            const currentWallet = await this.fetch({ userId, walletName });
 
             const amount = -1 * parseFloat(data.amount.toString());
             const history = await this._walletHistoryService.create({

@@ -7,7 +7,7 @@ import { WalletService } from './wallet.service';
 export class AirtimeToCashService {
     constructor(@inject(TYPES.WalletService) private _walletService: WalletService) {}
 
-    async fundUserWallet(data: any) {
+    async fundUserWallet(data: { amount: number; userId: string }) {
         const { amount, userId } = data;
         try {
             const fundWallet = await this._walletService.credit({ amount, userId, walletName: 'naira' }, 'airtime-to-cash');
@@ -17,8 +17,8 @@ export class AirtimeToCashService {
             return {
                 status: true,
                 statusCode: 201,
-                message: 'User created succesfully',
-                data: {},
+                message: 'User naira credited succesfully',
+                data: fundWallet,
                 error: null
             };
         } catch (error: any) {
