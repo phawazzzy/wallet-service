@@ -12,7 +12,10 @@ const TYPES = {
     OtpRepository: Symbol.for('OtpRepository'),
     OtpService: Symbol.for('OtpService'),
     ReferralRepositry: Symbol.for('ReferralRepositry'),
-    ReferralService: Symbol.for('ReferralService')
+    ReferralService: Symbol.for('ReferralService'),
+    WalletRepository: Symbol.for('WalletRepository'),
+    WalletHistoryRepository: Symbol.for('WalletHistoryRepository'),
+    WalletHistoryService: Symbol.for('WalletHistoryService')
 };
 
 export default TYPES;
