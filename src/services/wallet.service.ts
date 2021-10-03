@@ -1,3 +1,4 @@
+import { InternalServerError } from 'http-errors';
 import { inject, injectable } from 'inversify';
 import logging from '../../config/logging';
 import TYPES from '../../config/types';
@@ -91,7 +92,7 @@ export class WalletService {
             const response = await this._repo.findOne({ userId, walletName });
             if (response)
                 return {
-                    data: { userId: response.userId, amount: response.amount },
+                    data: { userId: response.userId, amount: response.amount, walletName: response.walletName },
                     message: 'Wallet fetched successfully'
                 };
         } catch (error) {}
@@ -113,5 +114,28 @@ export class WalletService {
         try {
             // get the wallet
         } catch (error) {}
+    }
+
+    async fetchUserWalletDetails(data: Iwallet) {
+        try {
+            const wallet = await this.get({ userId: data.userId, walletName: data.walletName });
+            if (!wallet) {
+                throw new InternalServerError('wallet not fetched');
+            }
+            return {
+                status: true,
+                statusCode: 201,
+                message: 'User naira credited succesfully',
+                data: wallet,
+                error: null
+            };
+        } catch (error: any) {
+            return {
+                status: false,
+                statusCode: error.statusCode || error.status || 500,
+                message: error.message || 'Internal server error',
+                error
+            };
+        }
     }
 }
