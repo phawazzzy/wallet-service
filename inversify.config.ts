@@ -6,8 +6,11 @@ import { UserModel, OtpModel, WalletModel, WalletHistoryModel } from './src/mode
 import { CrudRepository, IModelFactory, UserRepository, WalletHistoryRepository } from './src/repository';
 import { OtpRepository } from './src/repository/otp.repository';
 import { WalletRepository } from './src/repository/wallet.repository';
+import { AirtimeToCashService } from './src/services/airtime-to-cash.service';
 import { OtpService } from './src/services/otp.service';
 import { UserService } from './src/services/user.service';
+import { WalletHistoryService } from './src/services/wallet-history.service';
+import { WalletService } from './src/services/wallet.service';
 
 const container = new Container();
 // Datasource
@@ -24,6 +27,9 @@ container.bind<WalletHistoryRepository>(TYPES.WalletRepository).to(WalletHistory
 //SERVICE
 container.bind<UserService>(TYPES.UserService).to(UserService);
 container.bind<OtpService>(TYPES.OtpService).to(OtpService);
+container.bind<WalletService>(TYPES.WalletService).to(WalletService);
+container.bind<WalletHistoryService>(TYPES.WalletHistoryService).to(WalletHistoryService);
+container.bind<AirtimeToCashService>(TYPES.AirtimeToCashService).to(AirtimeToCashService);
 
 //MODELS
 container.bind<IModelFactory>(TYPES.IModelFactory).to(UserModel).whenTargetNamed('userModel');

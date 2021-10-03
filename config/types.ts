@@ -15,7 +15,9 @@ const TYPES = {
     ReferralService: Symbol.for('ReferralService'),
     WalletRepository: Symbol.for('WalletRepository'),
     WalletHistoryRepository: Symbol.for('WalletHistoryRepository'),
-    WalletHistoryService: Symbol.for('WalletHistoryService')
+    WalletHistoryService: Symbol.for('WalletHistoryService'),
+    WalletService: Symbol.for('WalletService'),
+    AirtimeToCashService: Symbol.for('AirtimeToCashService')
 };
 
 export default TYPES;

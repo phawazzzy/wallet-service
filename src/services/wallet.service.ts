@@ -9,6 +9,12 @@ export interface Iwallet {
     walletName: string;
     userId: string;
 }
+
+export interface IWalletData {
+    userId: string;
+    amount: number;
+    walletName: string;
+}
 //TODO: credit and debit should be transactions taking other atomic operations as parameters
 // TODO: check for all forms of negative bugs
 @injectable()
@@ -19,7 +25,7 @@ export class WalletService {
         return await this._repo.create({ userId: data.userId, walletName: data.walletName, amount: 0 });
     }
 
-    async credit(data: IWalletHistory, caller: string) {
+    async credit(data: IWalletData, caller: string) {
         try {
             const { userId, walletName } = data;
             const currentWallet = await this.get({ userId, walletName });
@@ -44,7 +50,7 @@ export class WalletService {
         throw Error('Could not credit user');
     }
 
-    async debit(data: IWalletHistory, caller: string) {
+    async debit(data: IWalletData, caller: string) {
         try {
             const { userId, walletName } = data;
             const currentWallet = await this.get({ userId, walletName });
@@ -101,5 +107,11 @@ export class WalletService {
         const currentWallet = await this.get({ userId, walletName });
         const amount = parseFloat(currentWallet.amount.toString());
         return amount >= value;
+    }
+
+    async fundWallet() {
+        try {
+            // get the wallet
+        } catch (error) {}
     }
 }
