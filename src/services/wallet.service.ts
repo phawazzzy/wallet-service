@@ -9,6 +9,8 @@ export interface Iwallet {
     walletName: string;
     userId: string;
 }
+//TODO: credit and debit should be transactions taking other atomic operations as parameters
+// TODO: check for all forms of negative bugs
 @injectable()
 export class WalletService {
     constructor(@inject(TYPES.WalletRepository) private _repo: WalletRepository, @inject(TYPES.WalletHistoryService) private _walletHistoryService: WalletHistoryService) {}
@@ -42,6 +44,29 @@ export class WalletService {
         throw Error('Could not credit user');
     }
 
+    async debit(data: IWalletHistory, caller: string) {
+        try {
+            const { userId, walletName } = data;
+            const currentWallet = await this.get({ userId, walletName });
+
+            const amount = -1 * parseFloat(data.amount.toString());
+            const history = await this._walletHistoryService.create({
+                userId: data.userId,
+                amount,
+                caller,
+                type: 'debit',
+                previousTotal: currentWallet.amount,
+                walletName
+            });
+            if (history) {
+                const record = await this._repo.updateWallet({ userId, amount, walletName });
+                if (!record) throw Error('Could not debit user');
+                return record;
+            } else "can't create wallet history";
+        } catch (error) {}
+        throw Error('Could not debit user');
+    }
+
     async fetch(data: { userId: string; walletName: string }) {
         try {
             const { userId, walletName } = data;
@@ -69,5 +94,12 @@ export class WalletService {
             data: null,
             error: 'Failed to fetch wallet'
         };
+    }
+
+    async hasEnoughBalance(data: Iwallet, value: number): Promise<boolean> {
+        const { userId, walletName } = data;
+        const currentWallet = await this.get({ userId, walletName });
+        const amount = parseFloat(currentWallet.amount.toString());
+        return amount >= value;
     }
 }
